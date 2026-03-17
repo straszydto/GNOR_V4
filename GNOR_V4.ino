@@ -143,14 +143,17 @@ void DMPDataReady() {
 #endif // USE_MPU
 
 void setup() {
-  Serial.begin(115200); 
+  Serial.begin(115200);
   while (!Serial);
 
 #ifdef USE_MPU
   #if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE
     Wire.begin();
-    #if !defined(__MSP430__) && !defined(__MSP432P401R__) && !defined(__MSP432__)
-    Wire.setClock(400000); // 400kHz I2C clock (not supported on MSP430/MSP432 Energia)
+    #if defined(__MSP430__)
+    delay(100); // extra settle time for MSP430 USCI_B I2C before DMP init
+    //Wire.setClock(400000);
+    #elif !defined(__MSP432P401R__) && !defined(__MSP432__)
+    //Wire.setClock(400000); // 400kHz I2C clock
     #endif
   #elif I2CDEV_IMPLEMENTATION == I2CDEV_BUILTIN_FASTWIRE
     Fastwire::setup(400, true);
@@ -172,9 +175,20 @@ void setup() {
     Serial.println("MPU6050 connection successful");
   }
 
-  /* Initialize and configure the DMP */
+  /* Initialize and configure the DMP — retry up to 3 times */
   Serial.println(F("Initializing DMP..."));
-  devStatus = mpu.dmpInitialize();
+  int dmpTries = 0;
+  do {
+    if (dmpTries > 0) {
+      Serial.print(F("DMP init failed (code "));
+      Serial.print(devStatus);
+      Serial.print(F("), retrying (attempt "));
+      Serial.print(dmpTries + 1);
+      Serial.println(F(")..."));
+      delay(200);
+    }
+    devStatus = mpu.dmpInitialize();
+  } while (devStatus != 0 && ++dmpTries < 3);
 
   /* Supply your gyro offsets here, scaled for min sensitivity */
   mpu.setXGyroOffset(0);
@@ -257,8 +271,8 @@ void loop() {
     float yaw = ypr[0] * 180/M_PI;
     unsigned long timestamp = millis();
 
-    // Serial.print("yaw: ");
-    // Serial.println(yaw);
+    //Serial.print("yaw: ");
+    //Serial.println(yaw);
 
 #ifdef USE_BOAT
     boatLoop(timestamp, (double)yaw);
