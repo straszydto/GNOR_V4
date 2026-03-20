@@ -7,3 +7,23 @@ The TI Innovation lab is providing students with TI microcontroller boards (MSP4
 This repository provides everything needed to get started using these components. This includes example code, pinouts, and more. If you have any questions or are having trouble getting started, you can find help at the UCF Innovation Lab in ENGII room 112 9AM-10PM M-F and Saturday 10-5. 
 
 ##### Install Instructions
+## Installing the Required Libraries
+
+This project requires the following libraries:
+
+- [WS2812_MSP432](https://github.com/UCFInnovationLab/WS2812_MSP432/releases)
+- [WS2812_MSP430](https://github.com/UCFInnovationLab/WS2812_MSP430/releases)
+
+### Recommended installation method
+
+Install the libraries from the ZIP files provided on each repository’s **Releases** page. Using release ZIPs ensures you install a specific tested version of each library.
+
+1. Open the Releases page for each library.
+2. Download the latest recommended ZIP file.
+3. In the Arduino IDE, go to **Sketch → Include Library → Add .ZIP Library...**
+4. Select the downloaded ZIP file.
+5. Repeat for the second library.
+
+### Alternative
+
+If no release ZIP is available, you can also download the repository as a ZIP using **Code → Download ZIP** and install it through **Add .ZIP Library...**, but this may give you a development version instead of a fixed release.
