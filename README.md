@@ -23,7 +23,3 @@ Install the libraries from the ZIP files provided on each repository’s **Relea
 3. In the Arduino IDE, go to **Sketch → Include Library → Add .ZIP Library...**
 4. Select the downloaded ZIP file.
 5. Repeat for the second library.
-
-### Alternative
-
-If no release ZIP is available, you can also download the repository as a ZIP using **Code → Download ZIP** and install it through **Add .ZIP Library...**, but this may give you a development version instead of a fixed release.
