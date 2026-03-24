@@ -177,3 +177,18 @@ Connect the ESC signal cable to the **ESC** connector on the board. Mind the ori
 
 #### Motor Switch
 Connect the motor switch to the **Motor** connector on the board.
+
+### Dual Motor Boat Wiring
+
+#### Left ESC
+Connect the left ESC signal cable to the **Servo2** connector on the board. Mind the orientation: the **black wire must align with the white line** on the board.
+
+> **<span style="color:red">WARNING: Incorrect orientation will damage the board and/or ESC. Double-check the wire orientation before applying power.</span>**
+
+#### Right ESC
+Connect the right ESC signal cable to the **ESC** connector on the board. Mind the orientation: the **black wire must align with the white line** on the board.
+
+> **<span style="color:red">WARNING: Incorrect orientation will damage the board and/or ESC. Double-check the wire orientation before applying power.</span>**
+
+#### Motor Switch
+Connect the motor switch to the **Motor** connector on the board, same as the single rudder configuration above.
