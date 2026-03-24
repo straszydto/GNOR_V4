@@ -32,7 +32,6 @@ This project requires additional board package URLs, standard Arduino libraries,
 1. In the settings window, locate the field labeled **Additional Boards Manager URLs**.
 2. Copy and paste the following URLs into that field, with **one URL per line**:
 
-       http://s3.amazonaws.com/energiaUS/packages/package_energia_index.json
        https://raw.githubusercontent.com/Andy4495/TI_Platform_Cores_For_Arduino/main/json/package_energia_optimized_index.json
        https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
 
@@ -41,19 +40,31 @@ This project requires additional board package URLs, standard Arduino libraries,
 
 ### Step 3 - Install the Required Board Packages
 
+Install only the board package(s) that match the board(s) you are using.
+
+#### MSP-EXP430F5529LP
 1. In the Arduino IDE, click **Tools**.
-2. Select **Board**.
-3. Click **Boards Manager**.
-4. In the **Boards Manager** search box, type **esp32**.
-5. Locate **esp32 by Espressif Systems**.
-6. Click **Install** and wait for the installation to finish.
-7. In the search box, type **energia**.
-8. Locate the package that provides support for **MSP430** and **MSP432** boards.
-9. Click **Install** and wait for the installation to finish.
-10. In the search box, type **TI Platform Cores**.
-11. Locate the TI package provided by the added board manager URLs.
-12. Click **Install** and wait for the installation to finish.
-13. Confirm that all required board packages have been installed successfully before continuing.
+2. Select **Board**, then click **Boards Manager**.
+3. In the search box, type **TI Platform Cores**.
+4. Locate the **TI Platform Cores for Arduino** package (added via the board manager URL in Step 2).
+5. Click **Install** and wait for the installation to finish.
+6. To select this board: **Tools → Board → Energia MSP430 Boards → MSP-EXP430F5529LP**
+
+#### MSP-EXP432P401R
+1. In the Arduino IDE, click **Tools**.
+2. Select **Board**, then click **Boards Manager**.
+3. In the search box, type **TI Platform Cores**.
+4. Locate the **TI Platform Cores for Arduino** package (added via the board manager URL in Step 2).
+5. Click **Install** and wait for the installation to finish (same package as MSP430 — skip if already installed).
+6. To select this board: **Tools → Board → Energia MSP432 EMT RED Boards → MSP-EXP432P401R**
+
+#### ESP32-CP2102
+1. In the Arduino IDE, click **Tools**.
+2. Select **Board**, then click **Boards Manager**.
+3. In the search box, type **esp32**.
+4. Locate **esp32 by Espressif Systems**.
+5. Click **Install** and wait for the installation to finish.
+6. To select this board: **Tools → Board → esp32 → ESP32 Dev Module**
 
 ### Step 4 - Install the Required Libraries from Library Manager
 
