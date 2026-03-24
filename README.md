@@ -56,10 +56,7 @@ This project requires additional board package URLs, standard Arduino libraries,
 6. In the search box, type **NeoPixelBus**.
 7. Locate **NeoPixelBus by Makuna**.
 8. Click **Install** and wait for the installation to complete.
-9. In the search box, type **MPU6050**.
-10. Locate the **MPU6050** library required for your project.
-11. Click **Install** and wait for the installation to complete.
-12. Confirm that all three libraries are installed before continuing.
+9. Confirm that both libraries are installed before continuing.
 
 ### Step 5 - Install Custom Libraries from ZIP Files
 
@@ -67,6 +64,7 @@ This project also requires the following custom libraries:
 
 - [WS2812_MSP432](https://github.com/UCFInnovationLab/WS2812_MSP432/releases)
 - [WS2812_MSP430](https://github.com/UCFInnovationLab/WS2812_MSP430/releases)
+- [MPU6050](https://github.com/ucfinnovationlab/mpu6050/releases)
 
 For each custom library, complete the following steps:
 
@@ -79,7 +77,7 @@ For each custom library, complete the following steps:
 7. Browse to the ZIP file you downloaded.
 8. Select the ZIP file.
 9. Click **Open** to install the library.
-10. Repeat this process for the second custom library.
+10. Repeat this process for each remaining custom library.
 
 Using ZIP files from the **Releases** page is recommended because they provide a specific tested version of the library rather than the latest development snapshot from the repository.
 
