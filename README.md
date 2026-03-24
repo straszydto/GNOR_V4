@@ -168,12 +168,12 @@ Note: if updates or bug fixes are released, you will need to repeat this process
 #### Rudder Servo
 Connect the rudder servo to the **Servo1** connector on the board. Mind the orientation: the **black wire must align with the white line** on the board.
 
-> **<span style="color:red">WARNING: Incorrect orientation will damage the board and/or servo. Double-check the wire orientation before applying power.</span>**
+> ⚠️ **WARNING: Incorrect orientation will damage the board and/or servo. Double-check the wire orientation before applying power.**
 
 #### ESC (Electronic Speed Controller)
 Connect the ESC signal cable to the **ESC** connector on the board. Mind the orientation: the **black wire must align with the white line** on the board.
 
-> **<span style="color:red">WARNING: Incorrect orientation will damage the board and/or ESC. Double-check the wire orientation before applying power.</span>**
+> ⚠️ **WARNING: Incorrect orientation will damage the board and/or ESC. Double-check the wire orientation before applying power.**
 
 #### Motor Switch
 Connect the motor switch to the **Motor** connector on the board.
@@ -183,12 +183,12 @@ Connect the motor switch to the **Motor** connector on the board.
 #### Left ESC
 Connect the left ESC signal cable to the **Servo2** connector on the board. Mind the orientation: the **black wire must align with the white line** on the board.
 
-> **<span style="color:red">WARNING: Incorrect orientation will damage the board and/or ESC. Double-check the wire orientation before applying power.</span>**
+> ⚠️ **WARNING: Incorrect orientation will damage the board and/or ESC. Double-check the wire orientation before applying power.**
 
 #### Right ESC
 Connect the right ESC signal cable to the **ESC** connector on the board. Mind the orientation: the **black wire must align with the white line** on the board.
 
-> **<span style="color:red">WARNING: Incorrect orientation will damage the board and/or ESC. Double-check the wire orientation before applying power.</span>**
+> ⚠️ **WARNING: Incorrect orientation will damage the board and/or ESC. Double-check the wire orientation before applying power.**
 
 #### Motor Switch
 Connect the motor switch to the **Motor** connector on the board, same as the single rudder configuration above.
