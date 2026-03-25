@@ -3,7 +3,7 @@
 ![Hull](docs/boathull.gif)
 ## GNOR Description
 The Great Navel Orange Race (GNOR) is an annual competition held at UCF every year for the second intro to engineering course. The project involves students building a boat, submarine, or other watercraft that autonomously carries an orange around the reflection pond.
-The TI Innovation lab is providing students with TI microcontroller boards (MSP430f5529 LaunchPad, MSP-EXP432P401R LaunchPad) and sensors (TI Sensor Hub) for use in their watercrafts. These components empower students to control servos, provide signals for high power relays and ESCs, measure angle change relative to starting angle, look at accelerometer data, and more.
+The TI Innovation lab is providing students with TI microcontroller boards (MSP430f5529 LaunchPad, MSP-EXP432P401R LaunchPad) and an IMU (mpu6050) sensor for use in their watercrafts. These components empower students to control servos, provide signals for high power relays and ESCs, measure angle change relative to starting angle, look at accelerometer data, and more.
 This repository provides everything needed to get started using these components. This includes example code, pinouts, and more. If you have any questions or are having trouble getting started, you can find help at the UCF Innovation Lab in ENGII room 112 9AM-10PM M-F and Saturday 10-5. 
 
 ## Supported Boards
@@ -15,7 +15,6 @@ This project supports the following three microcontroller boards:
 | ![MSP-EXP430F5529LP](docs/MSP-EXP430F5529LP.png) | ![MSP-EXP432P401R](docs/MSP-EXP432P401R.png) | ![ESP32-CP2102](docs/ESP32-CP2012.png) |
 | MSP-EXP430F5529LP | MSP-EXP432P401R | ESP32-CP2102 |
 
-## Install Instructions
 ## Arduino IDE 2.x Setup
 
 This project requires additional board package URLs, standard Arduino libraries, and custom ZIP libraries. Follow the steps below to fully configure Arduino IDE 2.x.
@@ -112,14 +111,14 @@ Using ZIP files from the **Releases** page is recommended because they provide a
 7. Open your project sketch.
 8. Run a compile test to confirm that the required boards and libraries were installed correctly.
 
-## Notes
+### Notes
 
 - If the **Additional Boards Manager URLs** field already contains entries, keep them and add these new URLs on separate lines.
 - Do not remove existing URLs unless you are sure they are no longer needed.
 - If you previously installed older versions of the custom ZIP libraries manually, remove the older copies first to avoid duplicate library conflicts.
 - After installation, example sketches may appear under **File → Examples**.
 
-## Software Usage
+## Software Download
 
 Before opening the project in the Arduino IDE, you need to download the GNOR_V4 sketch from GitHub. There are two ways to do this:
 
@@ -159,7 +158,7 @@ To update the project later, open GitHub Desktop and click **Fetch origin**, the
 
 Note: if updates or bug fixes are released, you will need to repeat this process and re-download the ZIP to get the latest version.
 
-## GNOR V4 Green Board Usage
+## GNOR V4 Green Board Wiring
 
 ![GNOR PCB V4](docs/GNOR_pcb_v4.png)
 
@@ -192,3 +191,16 @@ Connect the right ESC signal cable to the **ESC** connector on the board. Mind t
 
 #### Motor Switch
 Connect the motor switch to the **Motor** connector on the board, same as the single rudder configuration above.
+
+### ESC Calibration
+
+ESC calibration teaches the ESC the zero throttle and maximum throttle positions so that it can use the full throttle range. This only needs to be done once, or any time the ESC is replaced.
+
+**Steps:**
+1. Ensure the board is powered off.
+2. Short the two **Calibration** pins on the green board (e.g. using a jumper or a piece of wire).
+3. Power up the board.
+4. Wait until you hear the special calibration beeps from the ESC — this signals that the maximum throttle position has been registered.
+5. Remove the short from the Calibration pins.
+6. You should hear another beep from the ESC confirming that calibration is complete and the zero throttle position has been registered.
+7. The ESC is now calibrated and ready for use.
