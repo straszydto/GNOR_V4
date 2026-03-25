@@ -6,6 +6,8 @@ The Great Navel Orange Race (GNOR) is an annual competition held at UCF every ye
 The TI Innovation lab is providing students with TI microcontroller boards (MSP430f5529 LaunchPad, MSP-EXP432P401R LaunchPad) and an IMU (mpu6050) sensor for use in their watercrafts. These components empower students to control servos, provide signals for high power relays and ESCs, measure angle change relative to starting angle, look at accelerometer data, and more.
 This repository provides everything needed to get started using these components. This includes example code, pinouts, and more. If you have any questions or are having trouble getting started, you can find help at the UCF Innovation Lab in ENGII room 112 9AM-10PM M-F and Saturday 10-5. 
 
+---
+
 ## Supported Boards
 
 This project supports the following three microcontroller boards:
@@ -14,6 +16,8 @@ This project supports the following three microcontroller boards:
 |:-----------------:|:---------------:|:------------:|
 | ![MSP-EXP430F5529LP](docs/MSP-EXP430F5529LP.png) | ![MSP-EXP432P401R](docs/MSP-EXP432P401R.png) | ![ESP32-CP2102](docs/ESP32-CP2012.png) |
 | MSP-EXP430F5529LP | MSP-EXP432P401R | ESP32-CP2102 |
+
+---
 
 ## Arduino IDE 2.x Setup
 
@@ -118,6 +122,8 @@ Using ZIP files from the **Releases** page is recommended because they provide a
 - If you previously installed older versions of the custom ZIP libraries manually, remove the older copies first to avoid duplicate library conflicts.
 - After installation, example sketches may appear under **File → Examples**.
 
+---
+
 ## Software Download
 
 Before opening the project in the Arduino IDE, you need to download the GNOR_V4 sketch from GitHub. There are two ways to do this:
@@ -157,6 +163,8 @@ To update the project later, open GitHub Desktop and click **Fetch origin**, the
 6. Open the extracted `GNOR_V4/GNOR_V4.ino` file in the Arduino IDE.
 
 Note: if updates or bug fixes are released, you will need to repeat this process and re-download the ZIP to get the latest version.
+
+---
 
 ## GNOR V4 Green Board Wiring
 
