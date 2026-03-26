@@ -24,11 +24,25 @@ extern Servo servoEsc;  // Single motor OR right motor (dual motor)
 
 unsigned long last_time = 0;     // last time through the loop
 
+#define LED2_DEAD_BAND      2.0f    // degrees — within this shows bright on-target green
+#define LED2_MAX_ERROR      90.0f   // degrees — clamp for color gradient (positive=red, negative=blue)
+#define LED2_MAX_BRIGHTNESS 128     // max channel brightness in the gradient zone (0–255)
+#define LED2_ON_BRIGHTNESS  255     // green brightness when within LED2_DEAD_BAND
+
 #define P 2.0                       // Proportional constant used by the rudder or for each dual motor
 #define MOTOR_BASE_SPEED 0.5        // Default speed the single or dual motor(s) use (0.0-1.0)
 #define THROTTLE_HIGH_DEGREES 145   // High throttle setting in servo degrees
 #define THROTTLE_LOW_DEGREES 35     // Low throttle setting in servo degrees
 #define MAX_RUDDER_DEGREES 90/2     // Max angle the rudder moves on each side of zreo (90). Normally 45 Degrees.
+
+// Waypoint Array
+//
+static const Waypoint waypoints[] = {
+    {     0,   0 },   // 0–10s:  straight ahead
+    { 10000, 270 },   // 10–20s: turn to 270
+    { 20000, 180 },   // 20s+:   turn to 180
+};
+
 /*
  * setMotor1Speed
  * --------------
@@ -89,11 +103,6 @@ struct Waypoint {
     int heading360;         // compass heading in degrees (0–360)
 };
 
-static const Waypoint waypoints[] = {
-    {     0,   0 },   // 0–10s:  straight ahead
-    { 10000, 270 },   // 10–20s: turn to 270
-    { 20000, 180 },   // 20s+:   turn to 180
-};
 static const int WAYPOINT_COUNT = sizeof(waypoints) / sizeof(waypoints[0]);
 
 /*
@@ -193,9 +202,9 @@ void boatLoop(unsigned long timestamp, double heading) {
     if ((timestamp - last_time) > 500) {
         Serial.print("Heading: ");
         Serial.print(heading);
-        Serial.print(", ");
+        Serial.print(", Rate: ");
         Serial.print(heading_rate,3);
-        Serial.print(", ");
+        Serial.print(", Started: ");
         Serial.println(started);
         last_time = timestamp;
     }
@@ -276,8 +285,9 @@ void boatLoop(unsigned long timestamp, double heading) {
         // servo1: Rudder, servoEsc: motor
         //--------------------------------------------------
         rudder = P * error;
-        if (rudder >  MAX_RUDDER_ANGLE) rudder =  MAX_RUDDER_ANGLE;
-        if (rudder < -MAX_RUDDER_ANGLE) rudder = -MAX_RUDDER_ANGLE;
+        if (rudder >  MAX_RUDDER_DEGREES) rudder =  MAX_RUDDER_DEGREES;
+        if (rudder < -MAX_RUDDER_DEGREES) rudder = -MAX_RUDDER_DEGREES;
+        Serial.println(rudder);
         servo1.write(90 + rudder);
         if (motors_armed) {
             setMotor1Speed(MOTOR_BASE_SPEED);
@@ -287,11 +297,23 @@ void boatLoop(unsigned long timestamp, double heading) {
 #endif
     }
 
-    // Turn on LED if heading +- 5 degrees of the target
-    if (fabs(calculateDifferenceBetweenAngles(heading, target)) < 2.0) {
-        ws_setPixelColor(2, 0, 10, 0);
-    } else {
-        ws_setPixelColor(2, 10, 0, 0);
+    // Pixel 2: green when on target, red brightens for positive error, blue brightens for negative
+    {
+        double led2_err = calculateDifferenceBetweenAngles(heading, target);
+        uint8_t r = 0, g = 0, b = 0;
+        if (fabs(led2_err) < LED2_DEAD_BAND) {
+            g = LED2_ON_BRIGHTNESS;
+        } else {
+            double abs_err = fabs(led2_err);
+            if (abs_err > LED2_MAX_ERROR) abs_err = LED2_MAX_ERROR;
+            float t = (float)((abs_err - LED2_DEAD_BAND) / (LED2_MAX_ERROR - LED2_DEAD_BAND));
+            if (led2_err > 0.0) {
+                r = (uint8_t)(t * LED2_MAX_BRIGHTNESS);  // positive error: red brightens
+            } else {
+                b = (uint8_t)(t * LED2_MAX_BRIGHTNESS);  // negative error: blue brightens
+            }
+        }
+        ws_setPixelColor(2, r, g, b);
     }
 
     // Update LEDs every 50ms

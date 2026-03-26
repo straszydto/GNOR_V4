@@ -1,4 +1,4 @@
-#define USE_MPU         // Comment out to disable MPU6050
+#define USE_MPU           // Comment out to disable MPU6050
 #define USE_WS2812        // Comment out to disable WS2812 LEDs (MSP430, MSP432, ESP32)
 #define USE_BOAT          // Include boat loop
 //#define DUAL_MOTOR      // differential steering: left=servo2, right=servoEsc, no rudder

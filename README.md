@@ -49,7 +49,7 @@ Install only the board package(s) that match the board(s) you are using.
 1. In the Arduino IDE, click **Tools**.
 2. Select **Board**, then click **Boards Manager**.
 3. In the search box, type **MSP430**.
-4. Locate the **Energia MSP430 boards** package by Energia.
+4. Locate the **Energia MSP430 boards** package by (Andy4495/Energia).
 5. Click **Install** and wait for the installation to finish.
 6. To select this board: **Tools → Board → Energia MSP430 Boards → MSP-EXP430F5529LP**
 
@@ -57,7 +57,7 @@ Install only the board package(s) that match the board(s) you are using.
 1. In the Arduino IDE, click **Tools**.
 2. Select **Board**, then click **Boards Manager**.
 3. In the search box, type **MSP432**.
-4. Locate the **TI MSP432P4xx Launchpad board** package by Energia.
+4. Locate the **TI MSP432P4xx Launchpad board** package by (Andy4495/Energia).
 5. Click **Install** and wait for the installation to finish.
 6. To select this board: **Tools → Board → Energia MSP432 EMT RED Boards → MSP-EXP432P401R**
 
