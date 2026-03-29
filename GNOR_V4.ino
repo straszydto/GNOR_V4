@@ -108,7 +108,6 @@ double yaw = 1.0;
 MPU6050 mpu;
 //MPU6050 mpu(0x69); //Use for AD0 high
 //MPU6050 mpu(0x68, &Wire1); //Use for AD0 low, but 2nd Wire (TWI/I2C) object.
-int const INTERRUPT_PIN = INT_PIN;  // Interrupt pin
 
 /*---MPU6050 Control/Status Variables---*/
 bool DMPReady = false;  // Set true if DMP init was successful
@@ -127,11 +126,6 @@ VectorFloat gravity;    // [x, y, z]            Gravity vector
 float euler[3];         // [psi, theta, phi]    Euler angle container
 float ypr[3];           // [yaw, pitch, roll]   Yaw/Pitch/Roll container and gravity vector
 
-/*------Interrupt detection routine------*/
-volatile bool MPUInterrupt = false;     // Indicates whether MPU6050 interrupt pin has gone high
-void DMPDataReady() {
-  MPUInterrupt = true;
-}
 #endif // USE_MPU
 
 void setup() {
@@ -155,7 +149,6 @@ void setup() {
   Serial.println(F("Initializing I2C devices..."));
   delay(200);   // Allow MPU6050 I2C bus to fully settle after power-on or reset
   mpu.initialize();
-  pinMode(INTERRUPT_PIN, INPUT);
 
   /*Verify connection*/
   Serial.println(F("Testing MPU6050 connection..."));
@@ -199,15 +192,13 @@ void setup() {
     Serial.println(F("Enabling DMP..."));   //Turning ON DMP
     mpu.setDMPEnabled(true);
 
-    /*Enable Arduino interrupt detection*/
-    Serial.print(F("Enabling interrupt detection (Arduino external interrupt "));
-    Serial.print(digitalPinToInterrupt(INTERRUPT_PIN));
-    Serial.println(F(")..."));
-    attachInterrupt(digitalPinToInterrupt(INTERRUPT_PIN), DMPDataReady, RISING);
+    /* Disable MPU6050 hardware interrupt at the chip level (INT_ENABLE = 0x00),
+       then read INT_STATUS to clear any pending interrupt */
+    mpu.setIntEnabled(0);
     MPUIntStatus = mpu.getIntStatus();
 
     /* Set the DMP Ready flag so the main loop() function knows it is okay to use it */
-    Serial.println(F("DMP ready! Waiting for first interrupt..."));
+    Serial.println(F("DMP ready! Polling mode (no interrupt)..."));
     DMPReady = true;
     packetSize = mpu.dmpGetFIFOPacketSize(); //Get expected DMP packet size for later comparison
   }
