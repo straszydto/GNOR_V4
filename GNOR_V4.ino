@@ -98,12 +98,13 @@ bool sweepUp = true;
 void boatLoop(unsigned long timestamp, double heading);
 #endif // USE_BOAT
 
+double yaw = 1.0;
+
 #ifdef USE_MPU
 #include "I2Cdev.h"
 #include "MPU6050_6Axis_MotionApps20.h"
 //#include "MPU6050_6Axis_MotionApps612.h" // Uncomment this library to work with DMP 6.12 and comment on the above library.
 
-double yaw = 1.0;
 /* MPU6050 default I2C address is 0x68*/
 MPU6050 mpu;
 //MPU6050 mpu(0x69); //Use for AD0 high
@@ -132,6 +133,8 @@ void setup() {
   Serial.begin(115200);
   while (!Serial);
 
+  Serial.println("System Starting");
+  
 #ifdef USE_MPU
   #if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE
     Wire.begin();
