@@ -104,7 +104,18 @@ For each custom library, complete the following steps:
 
 Using ZIP files from the **Releases** page is recommended because they provide a specific tested version of the library rather than the latest development snapshot from the repository.
 
-### Step 6 - Restart the Arduino IDE and Verify Installation
+### Step 6 - Install the Ez-FET Lite Debugger Driver (MSP-EXP430F5529LP only)
+
+If you are using the **MSP-EXP430F5529LP**, you must install the TI Ez-FET Lite USB debugger driver before the board will be recognized by your computer.
+
+1. Download the driver installer: [ti_msp430driver_setup_1.0.1.1.exe](https://github.com/UCFInnovationLab/GNOR_V4/blob/main/docs/ti_msp430driver_setup_1.0.1.1.exe)
+2. Run the installer and follow the on-screen prompts.
+3. Once installation is complete, plug in your MSP-EXP430F5529LP via USB.
+4. Verify that the board is recognized by your computer before continuing.
+
+> **Note:** This driver is only required for the MSP-EXP430F5529LP. Skip this step if you are using the MSP-EXP432P401R or ESP32.
+
+### Step 7 - Restart the Arduino IDE and Verify Installation
 
 1. Close the Arduino IDE.
 2. Reopen the Arduino IDE.
