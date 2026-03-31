@@ -235,13 +235,13 @@ void boatLoop(unsigned long timestamp, double heading) {
         static bool blink_state = false;
 
         if (started == 1) {
-            ws_setPixelColor(1, 20, 8, 0);          // solid orange
+            ws_setPixelColor(1, 40, 16, 0);          // solid orange
         } else if (started == 0) {
             if ((timestamp - last_blink_time) >= 500) {
                 blink_state = !blink_state;
                 last_blink_time = timestamp;
             }
-            ws_setPixelColor(1, blink_state ? 20 : 0, blink_state ? 8 : 0, 0);
+            ws_setPixelColor(1, blink_state ? 40 : 0, blink_state ? 16 : 0, 0);
         } else {
             ws_setPixelColor(1, 0, 0, 0);           // off when not ready
         }
