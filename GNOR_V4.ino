@@ -32,6 +32,9 @@ Servo servoEsc;   // Single motor OR right motor (dual motor config)
 #endif
 
 /*---WS2812 wrapper (uniform API across all platforms)---*/
+// ============================================================
+// ws_begin
+// ============================================================
 inline void ws_begin() {
 #if defined(ESP32) || defined(ARDUINO_ARCH_ESP32)
   _strip.Begin();
@@ -39,6 +42,10 @@ inline void ws_begin() {
   _strip.begin();
 #endif
 }
+
+// ============================================================
+// ws_show
+// ============================================================
 void ws_show() {
 #if defined(ESP32) || defined(ARDUINO_ARCH_ESP32)
   _strip.Show();
@@ -46,6 +53,10 @@ void ws_show() {
   _strip.show();
 #endif
 }
+
+// ============================================================
+// ws_clear
+// ============================================================
 inline void ws_clear() {
 #if defined(ESP32) || defined(ARDUINO_ARCH_ESP32)
   _strip.ClearTo(RgbColor(0));
@@ -53,6 +64,10 @@ inline void ws_clear() {
   _strip.clear();
 #endif
 }
+
+// ============================================================
+// ws_setPixelColor
+// ============================================================
 void ws_setPixelColor(uint16_t n, uint8_t r, uint8_t g, uint8_t b) {
 #if defined(ESP32) || defined(ARDUINO_ARCH_ESP32)
   _strip.SetPixelColor(n, RgbColor(r, g, b));
@@ -60,6 +75,10 @@ void ws_setPixelColor(uint16_t n, uint8_t r, uint8_t g, uint8_t b) {
   _strip.setPixelColor(n, r, g, b);
 #endif
 }
+
+// ============================================================
+// ws_fill
+// ============================================================
 inline void ws_fill(uint8_t r, uint8_t g, uint8_t b) {
 #if defined(ESP32) || defined(ARDUINO_ARCH_ESP32)
   _strip.ClearTo(RgbColor(r, g, b));
@@ -129,12 +148,26 @@ float ypr[3];           // [yaw, pitch, roll]   Yaw/Pitch/Roll container and gra
 
 #endif // USE_MPU
 
+// ============================================================
+// setup
+// ============================================================
 void setup() {
   Serial.begin(115200);
   while (!Serial);
 
+#ifdef USE_WS2812
+  ws_begin();
+  ws_clear();
+  Serial.println(F("WS2812 enabled."));
+#endif // USE_WS2812
+
   Serial.println("System Starting");
-  
+  // Light some LEDs
+    ws_setPixelColor(0, 50, 0, 0);
+    ws_setPixelColor(1, 0, 50, 0);
+    ws_setPixelColor(2, 0, 0, 50);
+    ws_show();
+
 #ifdef USE_MPU
   #if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE
     Wire.begin();
@@ -214,12 +247,6 @@ void setup() {
   }
 #endif // USE_MPU
 
-#ifdef USE_WS2812
-  ws_begin();
-  ws_clear();
-  Serial.println(F("WS2812 enabled."));
-#endif // USE_WS2812
-
 #if defined(ESP32) || defined(ARDUINO_ARCH_ESP32)
 servo1.setPeriodHertz(50);
 servo2.setPeriodHertz(50);
@@ -237,9 +264,9 @@ servo1.write(90);
 #endif // USE_SERVO_TEST
 }
 
-//
-// MAIN LOOP
-//
+// ============================================================
+// loop
+// ============================================================
 void loop() {
 #ifdef USE_MPU
   if (!DMPReady) return; // Stop the program if DMP initialization failed.
