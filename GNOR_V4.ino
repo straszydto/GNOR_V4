@@ -3,13 +3,18 @@
 /*---Servo library and objects (shared by USE_BOAT and USE_SERVO_TEST)---*/
 #if defined(ESP32) || defined(ARDUINO_ARCH_ESP32)
   #include <ESP32Servo.h>
+  #define ServoClass Servo
+#elif defined(__MSP432P401R__) || defined(__MSP432__)
+  #include "src/Servo432/Servo432.h"
+  #define ServoClass Servo432
 #else
   #include <Servo.h>
+  #define ServoClass Servo
 #endif
-Servo servo1;     // Rudder
-Servo servo2;     // Left motor (dual motor config)
-Servo servo3;     // Auxiliary servo
-Servo servoEsc;   // Single motor OR right motor (dual motor config)
+ServoClass servo1;     // Rudder
+ServoClass servo2;     // Left motor (dual motor config)
+ServoClass servo3;     // Auxiliary servo
+ServoClass servoEsc;   // Single motor OR right motor (dual motor config)
 
 #ifdef USE_WS2812
 #define WS2812_COUNT 3
