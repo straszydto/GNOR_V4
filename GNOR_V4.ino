@@ -160,20 +160,21 @@ void setup() {
   ws_begin();
   ws_clear();
   Serial.println(F("WS2812 enabled."));
-
+  delay(1000);    // Delay, 432 need a delay before LED's would work
 
   // Light some LEDs
   ws_setPixelColor(0, 50, 0, 0);
   ws_setPixelColor(1, 0, 50, 0);
   ws_setPixelColor(2, 0, 0, 50);
   ws_show();
+  delay(1000);
 #endif // USE_WS2812
 
 #ifdef USE_MPU
   #if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE
     Wire.begin();
+    delay(100); // extra settle time I2C before DMP init
     #if defined(__MSP430__)
-    delay(100); // extra settle time for MSP430 USCI_B I2C before DMP init
     //Wire.setClock(400000);
     #elif !defined(__MSP432P401R__) && !defined(__MSP432__)
     //Wire.setClock(400000); // 400kHz I2C clock
