@@ -172,6 +172,19 @@ void setup() {
 
 #ifdef USE_MPU
   #if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE
+    /* 1. Recover stuck I2C bus — clock SCL 9 times to force slave to release SDA */
+    pinMode(SCL_PIN, OUTPUT);
+    pinMode(SDA_PIN, INPUT_PULLUP);
+    for (int i = 0; i < 9; i++) {
+      digitalWrite(SCL_PIN, HIGH); delayMicroseconds(5);
+      digitalWrite(SCL_PIN, LOW);  delayMicroseconds(5);
+    }
+    /* Send STOP condition */
+    pinMode(SDA_PIN, OUTPUT);
+    digitalWrite(SDA_PIN, LOW);  delayMicroseconds(5);
+    digitalWrite(SCL_PIN, HIGH); delayMicroseconds(5);
+    digitalWrite(SDA_PIN, HIGH); delayMicroseconds(5);
+
     Wire.begin();
     delay(100); // extra settle time I2C before DMP init
     #if defined(__MSP430__)
@@ -182,6 +195,10 @@ void setup() {
   #elif I2CDEV_IMPLEMENTATION == I2CDEV_BUILTIN_FASTWIRE
     Fastwire::setup(400, true);
   #endif
+
+  /* 2. Soft-reset the MPU6050 to clear any hung state from a prior CPU reset */
+  mpu.reset();
+  delay(100);   // wait for MPU6050 to come back up after reset
 
   /*Initialize device*/
   Serial.println(F("Initializing I2C devices..."));

@@ -30,6 +30,8 @@
     #define RESET_SWITCH 16
     #define LED_PIN 11
     #define INT_PIN 8
+    #define SCL_PIN 9
+    #define SDA_PIN 10
 
 #elif defined(__MSP432P401R__) || defined(__MSP432__)
     // MSP432 Platform
@@ -42,6 +44,8 @@
     #define RESET_SWITCH 16
     #define LED_PIN 11
     #define INT_PIN 8
+    #define SCL_PIN 9
+    #define SDA_PIN 10
 
 #elif defined(ESP32) || defined(ARDUINO_ARCH_ESP32)
     // ESP32 Platform
@@ -53,6 +57,8 @@
     #define CALIBRATE_SWITCH 5
     #define LED_PIN 32
     #define INT_PIN 19
+    #define SCL_PIN 22
+    #define SDA_PIN 21
 
 #else
     #error "Unsupported platform. Please define MSP430, MSP432, or ESP32."
