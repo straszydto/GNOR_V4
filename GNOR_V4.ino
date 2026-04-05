@@ -154,6 +154,7 @@ float ypr[3];           // [yaw, pitch, roll]   Yaw/Pitch/Roll container and gra
 void setup() {
   Serial.begin(115200);
   while (!Serial);
+  Serial.println("System Starting");
 
 #ifdef USE_WS2812
   ws_begin();
@@ -161,12 +162,11 @@ void setup() {
   Serial.println(F("WS2812 enabled."));
 #endif // USE_WS2812
 
-  Serial.println("System Starting");
   // Light some LEDs
-    ws_setPixelColor(0, 50, 0, 0);
-    ws_setPixelColor(1, 0, 50, 0);
-    ws_setPixelColor(2, 0, 0, 50);
-    ws_show();
+  ws_setPixelColor(0, 50, 0, 0);
+  ws_setPixelColor(1, 0, 50, 0);
+  ws_setPixelColor(2, 0, 0, 50);
+  ws_show();
 
 #ifdef USE_MPU
   #if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE
