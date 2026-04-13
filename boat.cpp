@@ -34,8 +34,8 @@ unsigned long last_time = 0;     // last time through the loop
 #define LED2_MAX_BRIGHTNESS 128     // max channel brightness in the gradient zone (0–255)
 #define LED2_ON_BRIGHTNESS  255     // green brightness when within LED2_DEAD_BAND
 
-#define P 2.0                       // Proportional constant used by the rudder or for each dual motor
-#define MOTOR_BASE_SPEED 0.5        // Default speed the single or dual motor(s) use (0.0-1.0)
+#define P 6.0                       // Proportional constant used by the rudder or for each dual motor
+#define MOTOR_BASE_SPEED 1.0        // Default speed the single or dual motor(s) use (0.0-1.0)
 #define THROTTLE_HIGH_DEGREES 145   // High throttle setting in servo degrees
 #define THROTTLE_LOW_DEGREES 35     // Low throttle setting in servo degrees
 #define MAX_RUDDER_DEGREES 90/2     // Max angle the rudder moves on each side of zreo (90). Normally 45 Degrees.
@@ -48,9 +48,16 @@ struct Waypoint {
 };
 
 static const Waypoint waypoints[] = {
-    {     0,   0 },   // 0–10s:  straight ahead
-    { 10000, 270 },   // 10–20s: turn to 270
-    { 20000, 180 },   // 20s+:   turn to 180
+    // {     0,   0 },   // 0–10s:  straight ahead
+    // { 10000, 270 },   // 10–20s: turn to 270
+    // { 20000, 180 },   // 20s+:   turn to 180
+    {     0,   0 },
+    { 6000, 330 },
+    { 9000, 300 },
+    { 12000, 285 },
+    { 15000, 270 },
+    { 23000, 225 },
+    { 25000, 180 },
 };
 static const int WAYPOINT_COUNT = sizeof(waypoints) / sizeof(waypoints[0]);
 
@@ -277,6 +284,8 @@ void boatLoop(unsigned long timestamp, double heading) {
         error = calculateDifferenceBetweenAngles(heading, target);
 
 
+//dual motor change section
+
 #ifdef DUAL_MOTOR
         //--------------------------------------------------
         // Dual motor differential steering (no rudder)
@@ -284,12 +293,32 @@ void boatLoop(unsigned long timestamp, double heading) {
         // Esc: left motor
         // NOTE: remember to detach the red power wire from the servo2 ESC
         //--------------------------------------------------
+        // diff = (P * error) / 180.0;      // scale error to motor-speed units
+        // if (diff >  MOTOR_BASE_SPEED) diff =  MOTOR_BASE_SPEED;
+        // if (diff < -MOTOR_BASE_SPEED) diff = -MOTOR_BASE_SPEED;
+        // if (motors_armed) {
+        //     setMotor2Speed(MOTOR_BASE_SPEED + diff);   // right
+        //     setMotor1Speed(MOTOR_BASE_SPEED - diff);   // left
+        // } else {
+        //     setMotor2Speed(0.0);
+        //     setMotor1Speed(0.0);
+        // }
         diff = (P * error) / 180.0;      // scale error to motor-speed units
         if (diff >  MOTOR_BASE_SPEED) diff =  MOTOR_BASE_SPEED;
         if (diff < -MOTOR_BASE_SPEED) diff = -MOTOR_BASE_SPEED;
+
+        double right = MOTOR_BASE_SPEED + diff;
+        double left  = MOTOR_BASE_SPEED - diff;
+
+        // limit final motor commands to valid range
+        if (right > 1.0) right = 1.0;
+        if (right < 0.0) right = 0.0;
+        if (left  > 1.0) left  = 1.0;
+        if (left  < 0.0) left  = 0.0;
+
         if (motors_armed) {
-            setMotor2Speed(MOTOR_BASE_SPEED + diff);   // right
-            setMotor1Speed(MOTOR_BASE_SPEED - diff);   // left
+            setMotor2Speed(right);   // right motor
+            setMotor1Speed(left);    // left motor
         } else {
             setMotor2Speed(0.0);
             setMotor1Speed(0.0);
